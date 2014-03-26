@@ -1,0 +1,27 @@
+{
+  "name": "client-session-id",
+  "version": "0.0.0",
+  "description": "A small session library that tracks the id of a client using signed cookies",
+  "main": "session.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/download13/client-session-id"
+  },
+  "keywords": [
+    "session",
+    "client",
+    "id"
+  ],
+  "author": "Erin Dachtler <download333@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/download13/client-session-id/issues"
+  },
+  "homepage": "https://github.com/download13/client-session-id",
+  "dependencies": {
+    "cookie": "~0.1.1"
+  }
+}
