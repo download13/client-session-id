@@ -36,21 +36,25 @@ function verify(key, data) {
 function createSessionManager(opts) {
 	var name = opts.name || 'sid';
 	var ttl = opts.ttl || 7 * 24 * 60 * 60 * 1000; // 7 days by default
-	var sign = sign.bind(opts.secret);
-	var verify = verify.bind(opts.secret);
+	var signLocal = sign.bind(opts.secret);
+	var verifyLocal = verify.bind(opts.secret);
 
 	var create = function(id) {
 		var expires = Date.now() + ttl;
-		var data = sign(id, expires);
+		var data = signLocal(id, expires);
 		setCookie(this, name, data, expires);
 	}
-	function mw(req, res, next) {
+	var destroy = function(id) {
+		setCookie(this, name, '', -86400);
+	}
+	var mw = function(req, res, next) {
 		var data = cookie.parse(req.headers.cookie);
 		if(data != null) data = data[name];
 		if(data != null) {
-			req[name] = verify(data);
+			req[name] = verifyLocal(data);
 		}
 		res.createSession = create;
+		res.destroySession = destroy;
 
 		next();
 	}
