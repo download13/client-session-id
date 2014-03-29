@@ -48,7 +48,7 @@ function createSessionManager(opts) {
 		setCookie(this, name, '', -86400);
 	}
 	var mw = function(req, res, next) {
-		var data = cookie.parse(req.headers.cookie);
+		var data = cookie.parse(req.headers.cookie || '');
 		if(data != null) data = data[name];
 		if(data != null) {
 			req[name] = verifyLocal(data);
