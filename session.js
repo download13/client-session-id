@@ -53,7 +53,6 @@ function createSessionManager(opts) {
 		if(data != null) data = data[name];
 		if(data != null) {
 			req[name] = verifyLocal(data);
-			console.log(name, req[name]);
 		}
 		res.createSession = create;
 		res.destroySession = destroy;
