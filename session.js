@@ -36,8 +36,8 @@ function verify(key, data) {
 function createSessionManager(opts) {
 	var name = opts.name || 'sid';
 	var ttl = opts.ttl || 7 * 24 * 60 * 60 * 1000; // 7 days by default
-	var signLocal = sign.bind(opts.secret);
-	var verifyLocal = verify.bind(opts.secret);
+	var signLocal = sign.bind(null, opts.secret);
+	var verifyLocal = verify.bind(null, opts.secret);
 
 	var create = function(id) {
 		var expires = Date.now() + ttl;
