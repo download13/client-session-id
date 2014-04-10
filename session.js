@@ -45,7 +45,7 @@ function createSessionManager(opts) {
 		setCookie(this, name, data, expires);
 	}
 	var destroy = function(id) {
-		setCookie(this, name, '', -86400);
+		setCookie(this, name, '', 0);
 	}
 	var mw = function(req, res, next) {
 		var data = cookie.parse(req.headers.cookie || '');
@@ -66,7 +66,7 @@ function setCookie(res, name, val, expires) {
 	var h = res.getHeader('Set-Cookie'); // Don't stomp on other cookies
 	if(h == null) h = [];
 	else if(typeof h == 'string') h = [h];
-	h.push(cookie.serialize(name, val, {expires: expires, path: '/', httpOnly: true}));
+	h.push(cookie.serialize(name, val, {expires: new Date(expires), path: '/', httpOnly: true}));
 	res.setHeader('Set-Cookie', h);
 }
 
