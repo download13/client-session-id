@@ -23,9 +23,9 @@ function verify(key, data) {
 	data = data.split('|');
 	var signature = data[0];
 	var expires = parseInt(data[1], 16);
-	if(isNaN(expires) || expires >= Date.now()) return null;
+	if(isNaN(expires) || expires <= Date.now()) return null;
 	var id = data[2];
-	var h = crypto.createHmac(HMAC_ALGORITHM);
+	var h = crypto.createHmac(HMAC_ALGORITHM, key);
 	h.update(data[1]);
 	h.update(id);
 	var hash = base64urlencode(h.digest('base64'));
@@ -36,8 +36,9 @@ function verify(key, data) {
 function createSessionManager(opts) {
 	var name = opts.name || 'sid';
 	var ttl = opts.ttl || 7 * 24 * 60 * 60 * 1000; // 7 days by default
-	var signLocal = sign.bind(null, opts.secret);
-	var verifyLocal = verify.bind(null, opts.secret);
+	var secret = new Buffer(opts.secret, 'utf8');
+	var signLocal = sign.bind(null, secret);
+	var verifyLocal = verify.bind(null, secret);
 
 	var create = function(id) {
 		var expires = Date.now() + ttl;
@@ -52,6 +53,7 @@ function createSessionManager(opts) {
 		if(data != null) data = data[name];
 		if(data != null) {
 			req[name] = verifyLocal(data);
+			console.log(name, req[name]);
 		}
 		res.createSession = create;
 		res.destroySession = destroy;

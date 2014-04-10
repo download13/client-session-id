@@ -1,6 +1,6 @@
 {
   "name": "client-session-id",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A small session library that tracks the id of a client using signed cookies",
   "main": "session.js",
   "scripts": {
